@@ -1,0 +1,14 @@
+.logo-image {
+    float:left;
+    margin-right:10px;
+    width:40px;
+}
+
+.header-app {
+    background:cadetblue;
+    height: 38px!important;
+}
+
+.header-app  h3 {
+    color:mediumturquoise;
+}

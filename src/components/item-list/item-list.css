@@ -1,0 +1,16 @@
+.itemColor li {
+    color:darkcyan;
+    padding: .2rem 0.5rem;
+}
+
+.btn-move {
+    float:right;
+    color:white;
+    height: 26px;
+    margin-left: 3px;
+    padding: .1rem .5rem;
+}
+
+.btn-move:hover {
+    color:white;
+}

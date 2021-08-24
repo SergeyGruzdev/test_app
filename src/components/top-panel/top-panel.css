@@ -1,0 +1,12 @@
+.panel {
+    width: 100%;
+    margin-left: 2.2rem;
+    margin-top: 1.2rem;
+}
+
+.panel h2{
+    margin-bottom: 0.2rem;
+    font-weight: bold;
+    color: cadetblue;
+    font-size: 1.2rem;
+}
