@@ -1,35 +1,15 @@
-import { EventConsumer }    from '../event-context';
-import { withItem }         from '../hoc-helpers';
-
-//item
-const Item = ({ item, idx, leftSide, rightSide, propName }) => {
-    const {id, title} = item;
-    return (
-        <EventConsumer>
-            {
-                (onButtonClick) =>
-                (
-                    <li key={id} className="list-group-item">
-                        <span>{++idx}. {title}</span>
-                        {
-                            withItem({
-                                isDraw:     !rightSide,
-                                label:      'Right',
-                                onBtnClick: () => onButtonClick({ propName, id, toLeft: false })
-                            })
-                        }
-                        {
-                            withItem({
-                                isDraw:     !leftSide,
-                                label:      'Left',
-                                onBtnClick: () => onButtonClick({ propName, id, toLeft: true })
-                            })
-                        }
-                    </li>
-                )
-            }
-        </EventConsumer>
-    )
-}
+const Item = ({label, checked, onCheckboxChange, buttons}) =>
+    <div className="item">
+        <div className="form-check">
+            <input
+                className   ="form-check-input"
+                type        ="checkbox"
+                checked     ={ checked }
+                onChange    ={ onCheckboxChange }
+            />
+            <span>{ label }</span>
+        </div>
+        { buttons }
+    </div>
 
 export default Item
