@@ -1,32 +1,7 @@
 import React, {Component}   from 'react'
 import Item                 from '../item'
+import Buttons              from '../buttons'
 import                      './item-list.css'
-
-const withButtons = (location, onMoveLeft, onMoveRight, disabled = false) => {
-    const { left,right } = location()
-    return (
-        <div>
-            {
-                !left
-                ?   <button
-                        disabled    = { disabled }
-                        className   ="btn btn-info btn-sm btn-move"
-                        onClick     ={ onMoveLeft }
-                    >Move Left</button>
-                :   null
-            }
-            {
-                !right
-                ?   <button
-                        disabled    = { disabled }
-                        className   ="btn btn-info btn-sm btn-move"
-                        onClick     ={ onMoveRight }
-                    >Move Right</button>
-                :   null
-            }
-        </div>
-    )
-}
 
 class ItemList extends Component {
 
@@ -68,7 +43,8 @@ class ItemList extends Component {
     }
 
     render() {
-        const { data, name, onMoveLeft, onMoveRight, location } = this.props
+        const { data, name, buttonsProps } = this.props
+        const { left, right, onMoveLeft, onMoveRight } = buttonsProps()
         const { idsList } = this.state
         const indeterminate = idsList.length < data.length && idsList.length > 0
         return (
@@ -78,21 +54,21 @@ class ItemList extends Component {
                     <div className="form-check noPadding">
                         <input
                                type         ="checkbox"
+                               disabled     ={ data.length === 0 }
                                className    ="form-check-input checkbox"
                                ref          ={ el => el ? el.indeterminate = indeterminate : null }
-                               onChange     ={() => this.onCheckAllChange(data)}
-                               checked      ={idsList.length === data.length && data.length > 0}
+                               onChange     ={ () => this.onCheckAllChange(data) }
+                               checked      ={ idsList.length === data.length && data.length > 0 }
                         />
                     </div>
                     <div>
-                        {
-                            withButtons(
-                                location,
-                                () => onMoveLeft(name,idsList),
-                                () => onMoveRight(name,idsList),
-                                idsList.length === 0
-                            )
-                        }
+                        <Buttons
+                            left        = { left }
+                            right       = { right }
+                            onMoveLeft  = { () => onMoveLeft(idsList) }
+                            onMoveRight = { () => onMoveRight(idsList) }
+                            disabled    = { idsList.length === 0 }
+                        />
                     </div>
                 </div>
                 <div>
@@ -105,11 +81,12 @@ class ItemList extends Component {
                                         checked             ={ idsList.includes(item.id) }
                                         onCheckboxChange    ={ () => this.onCheckboxChange(item.id)}
                                         buttons             ={
-                                                                withButtons(
-                                                                    location,
-                                                                    () => onMoveLeft(name,[item.id]),
-                                                                    () => onMoveRight(name,[item.id])
-                                                                )
+                                                                <Buttons
+                                                                    left        = { left }
+                                                                    right       = { right }
+                                                                    onMoveLeft  = { () => onMoveLeft([item.id]) }
+                                                                    onMoveRight = { () => onMoveRight([item.id]) }
+                                                                />
                                                             }
                                     />
                                 </li>

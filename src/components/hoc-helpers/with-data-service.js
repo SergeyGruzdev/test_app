@@ -1,6 +1,6 @@
 import { DataServiceConsumer } from "../data-service-context";
 
-const withDataService = () => (Wrapped) => (props) =>
+const withDataService = () => Wrapped => props =>
     <DataServiceConsumer>
         {
             (dataService) => <Wrapped {... props} dataService={dataService} />

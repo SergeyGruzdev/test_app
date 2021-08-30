@@ -32,14 +32,3 @@
 .list-group-item .item span {
     margin-left:5px;
 }
-
-.btn-move {
-    color:white;
-    height: 26px;
-    margin-left: 3px;
-    padding: .1rem .5rem;
-}
-
-.btn-move:hover {
-    color:white;
-}

@@ -18,23 +18,10 @@ const dataError = (error) => {
     }
 }
 
-const onMoveLeft = (from, ids) => {
+const onMove = props => {
     return {
-        type: 'MOVE_DATA_LEFT',
-        payload: {
-            from: from,
-            ids: ids
-        }
-    }
-}
-
-const onMoveRight = (from,ids) => {
-    return {
-        type: 'MOVE_DATA_RIGHT',
-        payload: {
-            from: from,
-            ids: ids
-        }
+        type: 'MOVE_DATA',
+        payload: props
     }
 }
 
@@ -47,6 +34,5 @@ const fetchData = (dataService, dispatch) => () => {
 
 export {
     fetchData,
-    onMoveLeft,
-    onMoveRight
+    onMove
 }
