@@ -1,6 +1,7 @@
 import React, { Component }             from 'react'
 import { BrowserRouter as Router }      from 'react-router-dom'
 import { withDataService }              from '../hoc-helpers'
+import { AppProvider }                  from '../context'
 import { connect }                      from 'react-redux'
 import { fetchData, onMove }            from '../../actions'
 import Spinner                          from '../spinner'
@@ -25,13 +26,15 @@ class App extends Component {
     getButtonsProps = name => {
         const keys = this.getTabs(this.props.data)
         const idx = keys.findIndex(item => item === name)
+        const left = idx === 0
+        const right = idx === keys.length - 1
         const toLeft = keys[idx-1]
         const toRight = keys[idx+1]
         return  {
-            left: idx === 0,
-            right:idx === keys.length - 1,
-            onMoveLeft: ids => this.props.onMove({from:name,to:toLeft,ids}),
-            onMoveRight: ids => this.props.onMove({from:name,to:toRight,ids})
+            leftLabel: 'Move Left',
+            rightLabel: 'Move Right',
+            onMoveLeft:  left   ? null : ids => this.props.onMove({from:name,to:toLeft,ids}),
+            onMoveRight: right  ? null : ids => this.props.onMove({from:name,to:toRight,ids})
         }
     }
 
@@ -43,7 +46,7 @@ class App extends Component {
             return <ErrorIndicator />
 
         return (
-                <div>
+                <AppProvider value={ this.getButtonsProps }>
                     <Header />
                     <div className="container">
                         <div className="row panel">
@@ -52,7 +55,6 @@ class App extends Component {
                                     <div key={ idx } className="col-md-4">
                                         <ItemList   name            = { name }
                                                     data            = { data[name] }
-                                                    buttonsProps    = { () => this.getButtonsProps(name) }
                                         />
                                     </div>
                                 )
@@ -64,7 +66,6 @@ class App extends Component {
                                             <Tabs tabs={this.getTabs(data)} page={name} />
                                             <ItemList   name            = { name }
                                                         data            = { data[name] }
-                                                        buttonsProps    = { () => this.getButtonsProps(name) }
                                             />
                                         </div>
                                     }/>
@@ -73,7 +74,7 @@ class App extends Component {
                             </Router>
                         </div>
                     </div>
-                </div>
+                </AppProvider>
         )
     }
 }

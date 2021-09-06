@@ -1,12 +1,18 @@
 import React, {Component}   from 'react'
+import { withButtonsProps } from '../hoc-helpers'
 import Item                 from '../item'
-import Buttons              from '../buttons'
+import Button               from '../button'
 import                      './item-list.css'
 
 class ItemList extends Component {
 
     state = {
         idsList: []
+    }
+
+    static defaultProps = {
+        onMoveLeft: null,
+        onMoveRight: null
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -43,14 +49,13 @@ class ItemList extends Component {
     }
 
     render() {
-        const { data, name, buttonsProps } = this.props
-        const { left, right, onMoveLeft, onMoveRight } = buttonsProps()
+        const { data, name, leftLabel, rightLabel, onMoveLeft, onMoveRight } = this.props
         const { idsList } = this.state
         const indeterminate = idsList.length < data.length && idsList.length > 0
         return (
             <div className="header-item" >
                 <h2>{ name } page</h2>
-                <div className="item-list">
+                 <div className="item-list">
                     <div className="form-check noPadding">
                         <input
                                type         ="checkbox"
@@ -62,13 +67,24 @@ class ItemList extends Component {
                         />
                     </div>
                     <div>
-                        <Buttons
-                            left        = { left }
-                            right       = { right }
-                            onMoveLeft  = { () => onMoveLeft(idsList) }
-                            onMoveRight = { () => onMoveRight(idsList) }
-                            disabled    = { idsList.length === 0 }
-                        />
+                        {
+                            onMoveLeft
+                                ?   <Button
+                                        click       ={ () => onMoveLeft(idsList) }
+                                        label       ={ leftLabel }
+                                        disabled    ={ idsList.length === 0 }
+                                    />
+                                : null
+                        }
+                        {
+                            onMoveRight
+                                ?   <Button
+                                        click       ={ () => onMoveRight(idsList) }
+                                        label       ={ rightLabel }
+                                        disabled    ={ idsList.length === 0 }
+                                    />
+                                : null
+                        }
                     </div>
                 </div>
                 <div>
@@ -79,14 +95,22 @@ class ItemList extends Component {
                                     <Item
                                         label               ={`${ ++idx }. ${item.title}`}
                                         checked             ={ idsList.includes(item.id) }
-                                        onCheckboxChange    ={ () => this.onCheckboxChange(item.id)}
-                                        buttons             ={
-                                                                <Buttons
-                                                                    left        = { left }
-                                                                    right       = { right }
-                                                                    onMoveLeft  = { () => onMoveLeft([item.id]) }
-                                                                    onMoveRight = { () => onMoveRight([item.id]) }
-                                                                />
+                                        onCheckboxChange    ={ () => this.onCheckboxChange(item.id) }
+                                        buttonLeft          ={
+                                                                onMoveLeft
+                                                                    ?   <Button
+                                                                            click       ={ () => onMoveLeft([item.id]) }
+                                                                            label       ={ leftLabel }
+                                                                        />
+                                                                    : null
+                                                            }
+                                        buttonRight         ={
+                                                                onMoveRight
+                                                                    ?   <Button
+                                                                            click       ={ () => onMoveRight([item.id]) }
+                                                                            label       ={ rightLabel }
+                                                                        />
+                                                                    : null
                                                             }
                                     />
                                 </li>
@@ -99,4 +123,4 @@ class ItemList extends Component {
     }
 }
 
-export default ItemList
+export default withButtonsProps(ItemList)

@@ -1,4 +1,4 @@
-const Item = ({label, checked, onCheckboxChange, buttons}) =>
+const Item = ({label, checked, onCheckboxChange, buttonLeft, buttonRight}) =>
     <div className="item">
         <div className="form-check">
             <input
@@ -9,7 +9,10 @@ const Item = ({label, checked, onCheckboxChange, buttons}) =>
             />
             <span>{ label }</span>
         </div>
-        { buttons }
+        <div>
+            { buttonLeft }
+            { buttonRight }
+        </div>
     </div>
 
 export default Item

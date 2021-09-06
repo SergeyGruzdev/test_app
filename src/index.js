@@ -4,7 +4,7 @@ import ReactDom                 from 'react-dom'
 import App                      from './components/app'
 import ErrorBoundry             from './components/error-boundry'
 import DataService              from './components/services/dataService'
-import { DataServiceProvider }  from './components/data-service-context'
+import { DataServiceProvider }  from './components/context'
 import store from './store'
 
 const dataService = new DataService()
