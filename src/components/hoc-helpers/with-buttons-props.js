@@ -20,9 +20,9 @@ const withButtonsProps = Wrapped => props =>
                 const { leftLabel, rightLabel, onMoveLeft, onMoveRight } = buttonsProps(name)
                 const newProps = { name, data, leftLabel, rightLabel }
 
-                return onMoveLeft == null ?
+                return !onMoveLeft ?
                     <Wrapped { ...{ ...newProps, onMoveRight }}/>
-                 : onMoveRight == null ?
+                 : !onMoveRight ?
                     <Wrapped { ...{ ...newProps, onMoveLeft }}/>
                  :  <Wrapped { ...{ ...newProps, onMoveLeft, onMoveRight }}/>
             }

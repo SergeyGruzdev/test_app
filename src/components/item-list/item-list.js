@@ -4,6 +4,9 @@ import Item                 from '../item'
 import Button               from '../button'
 import                      './item-list.css'
 
+const onMoveLeftDefault = () => {}
+const onMoveRightDefault = () => {}
+
 class ItemList extends Component {
 
     state = {
@@ -11,8 +14,8 @@ class ItemList extends Component {
     }
 
     static defaultProps = {
-        onMoveLeft: null,
-        onMoveRight: null
+        onMoveLeft: onMoveLeftDefault,
+        onMoveRight: onMoveRightDefault
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -68,7 +71,7 @@ class ItemList extends Component {
                     </div>
                     <div>
                         {
-                            onMoveLeft
+                            onMoveLeft !== onMoveLeftDefault
                                 ?   <Button
                                         click       ={ () => onMoveLeft(idsList) }
                                         label       ={ leftLabel }
@@ -77,7 +80,7 @@ class ItemList extends Component {
                                 : null
                         }
                         {
-                            onMoveRight
+                            onMoveRight !== onMoveRightDefault
                                 ?   <Button
                                         click       ={ () => onMoveRight(idsList) }
                                         label       ={ rightLabel }
@@ -97,7 +100,7 @@ class ItemList extends Component {
                                         checked             ={ idsList.includes(item.id) }
                                         onCheckboxChange    ={ () => this.onCheckboxChange(item.id) }
                                         buttonLeft          ={
-                                                                onMoveLeft
+                                                                onMoveLeft !== onMoveLeftDefault
                                                                     ?   <Button
                                                                             click       ={ () => onMoveLeft([item.id]) }
                                                                             label       ={ leftLabel }
@@ -105,7 +108,7 @@ class ItemList extends Component {
                                                                     : null
                                                             }
                                         buttonRight         ={
-                                                                onMoveRight
+                                                                onMoveRight !== onMoveRightDefault
                                                                     ?   <Button
                                                                             click       ={ () => onMoveRight([item.id]) }
                                                                             label       ={ rightLabel }
