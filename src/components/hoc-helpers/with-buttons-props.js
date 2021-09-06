@@ -20,11 +20,11 @@ const withButtonsProps = Wrapped => props =>
                 const { leftLabel, rightLabel, onMoveLeft, onMoveRight } = buttonsProps(name)
                 const newProps = { name, data, leftLabel, rightLabel }
 
-                return !onMoveLeft ?
-                    <Wrapped { ...{ ...newProps, onMoveRight }}/>
-                 : !onMoveRight ?
-                    <Wrapped { ...{ ...newProps, onMoveLeft }}/>
-                 :  <Wrapped { ...{ ...newProps, onMoveLeft, onMoveRight }}/>
+                return !onMoveLeft
+                    ? <Wrapped { ...{ ...newProps, onMoveRight }}/>
+                    : !onMoveRight
+                        ? <Wrapped { ...{ ...newProps, onMoveLeft }}/>
+                        : <Wrapped { ...{ ...newProps, onMoveLeft, onMoveRight }}/>
             }
         }
     </AppConsumer>
