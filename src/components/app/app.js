@@ -33,8 +33,8 @@ class App extends Component {
         return  {
             leftLabel: 'Move Left',
             rightLabel: 'Move Right',
-            onMoveLeft:  left   ? null : ids => this.props.onMove({from:name,to:toLeft,ids}),
-            onMoveRight: right  ? null : ids => this.props.onMove({from:name,to:toRight,ids})
+            onMoveLeft:  left   ? null : ids => this.props.onMove({ from:name,to:toLeft,ids }),
+            onMoveRight: right  ? null : ids => this.props.onMove({ from:name,to:toRight,ids })
         }
     }
 
@@ -63,13 +63,13 @@ class App extends Component {
                                 <Switch>
                                     <Route path="/:name" render={({ match: { params: { name } } }) =>
                                         <div>
-                                            <Tabs tabs={this.getTabs(data)} page={name} />
+                                            <Tabs tabs={ this.getTabs(data) } page={ name } />
                                             <ItemList   name            = { name }
                                                         data            = { data[name] }
                                             />
                                         </div>
                                     }/>
-                                    <Redirect to={`/${this.getTabs(data)[0]}`} />
+                                    <Redirect to={ `/${this.getTabs(data)[0]}` } />
                                 </Switch>
                             </Router>
                         </div>
@@ -79,7 +79,7 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = ({...props}) => ({...props})
+const mapStateToProps = ({ ...props }) => ({ ...props })
 const mapDispatchtoProps = (dispatch, { dataService }) =>  (
     {
         fetchData: fetchData(dataService, dispatch),

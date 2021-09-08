@@ -11,7 +11,7 @@
 }
 
 .item-list .checkbox {
-    margin-left: 9px;
+    margin-left: 26px;
     margin-top: 10px;
 }
 
@@ -24,9 +24,16 @@
     padding: .2rem 0.5rem;
 }
 
+.itemColor {
+    padding-left: 0;
+    border-radius: 0.25rem;
+}
+
 .list-group-item .item {
     display:flex;
     justify-content: space-between;
+    width: 100%;
+    margin-left: 5px;
 }
 
 .list-group-item .item span {

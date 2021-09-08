@@ -1,4 +1,4 @@
-const Item = ({label, checked, onCheckboxChange, buttonLeft, buttonRight}) =>
+const Item = ({ label, checked, onCheckboxChange, ...props }) =>
     <div className="item">
         <div className="form-check">
             <input
@@ -10,8 +10,7 @@ const Item = ({label, checked, onCheckboxChange, buttonLeft, buttonRight}) =>
             <span>{ label }</span>
         </div>
         <div>
-            { buttonLeft }
-            { buttonRight }
+            { props.children }
         </div>
     </div>
 

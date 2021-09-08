@@ -4,8 +4,7 @@ import Item                 from '../item'
 import Button               from '../button'
 import                      './item-list.css'
 
-const onMoveLeftDefault = () => {}
-const onMoveRightDefault = () => {}
+const onMoveDefault = () => {}
 
 class ItemList extends Component {
 
@@ -14,8 +13,8 @@ class ItemList extends Component {
     }
 
     static defaultProps = {
-        onMoveLeft: onMoveLeftDefault,
-        onMoveRight: onMoveRightDefault
+        onMoveLeft: onMoveDefault,
+        onMoveRight: onMoveDefault
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -26,7 +25,7 @@ class ItemList extends Component {
         }
     }
 
-    onCheckboxChange = (id) => {
+    onCheckboxChange = id => {
         const idx = this.state.idsList.findIndex(el => el === id)
         this.setState
         (
@@ -39,10 +38,10 @@ class ItemList extends Component {
         )
     }
 
-    onCheckAllChange = (data) => {
+    onCheckAllChange = data => {
         this.setState
         (
-            ({idsList }) =>
+            ({ idsList }) =>
             (
                 {
                     idsList: idsList.length === data.length ? [] : data.map(item => item.id)
@@ -50,6 +49,15 @@ class ItemList extends Component {
             )
         )
     }
+
+    getButton = ({ ids, label, onMove }) =>
+        onMove !== onMoveDefault
+            ?   <Button
+                    click       ={ () => onMove(ids) }
+                    label       ={ label }
+                    disabled    ={ ids.length === 0 }
+                />
+            : null
 
     render() {
         const { data, name, leftLabel, rightLabel, onMoveLeft, onMoveRight } = this.props
@@ -71,51 +79,30 @@ class ItemList extends Component {
                     </div>
                     <div>
                         {
-                            onMoveLeft !== onMoveLeftDefault
-                                ?   <Button
-                                        click       ={ () => onMoveLeft(idsList) }
-                                        label       ={ leftLabel }
-                                        disabled    ={ idsList.length === 0 }
-                                    />
-                                : null
+                            this.getButton({ ids: idsList, label: leftLabel, onMove: onMoveLeft })
                         }
                         {
-                            onMoveRight !== onMoveRightDefault
-                                ?   <Button
-                                        click       ={ () => onMoveRight(idsList) }
-                                        label       ={ rightLabel }
-                                        disabled    ={ idsList.length === 0 }
-                                    />
-                                : null
+                            this.getButton({ ids: idsList, label: rightLabel, onMove: onMoveRight })
                         }
                     </div>
                 </div>
                 <div>
-                    <ul className="list-group itemColor">
+                    <ul className="list-group-numbered itemColor">
                         {
-                            data.map((item, idx) =>
-                                <li key={ item.id } className="list-group-item">
+                            data.map( item =>
+                                <li key={ item.id } className="list-group-item d-flex justify-content-between align-items-start">
                                     <Item
-                                        label               ={`${ ++idx }. ${item.title}`}
+                                        label               ={ item.title }
                                         checked             ={ idsList.includes(item.id) }
                                         onCheckboxChange    ={ () => this.onCheckboxChange(item.id) }
-                                        buttonLeft          ={
-                                                                onMoveLeft !== onMoveLeftDefault
-                                                                    ?   <Button
-                                                                            click       ={ () => onMoveLeft([item.id]) }
-                                                                            label       ={ leftLabel }
-                                                                        />
-                                                                    : null
-                                                            }
-                                        buttonRight         ={
-                                                                onMoveRight !== onMoveRightDefault
-                                                                    ?   <Button
-                                                                            click       ={ () => onMoveRight([item.id]) }
-                                                                            label       ={ rightLabel }
-                                                                        />
-                                                                    : null
-                                                            }
-                                    />
+                                    >
+                                    {
+                                        this.getButton({ ids: [item.id], label: leftLabel, onMove: onMoveLeft })
+                                    }
+                                    {
+                                        this.getButton({ ids: [item.id], label: rightLabel, onMove: onMoveRight })
+                                    }
+                                    </Item>
                                 </li>
                             )
                         }
